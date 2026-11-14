@@ -66,7 +66,6 @@ class PyTypeProWindow(QMainWindow):
         self.setup_ui()
         self.cargar_ultimo_libro()
 
-        # Aseguramos que la ventana principal tenga el foco del teclado
         self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.setFocus()
 
@@ -78,7 +77,7 @@ class PyTypeProWindow(QMainWindow):
         top_layout = QHBoxLayout()
         self.btn_abrir = QPushButton("Biblioteca / Agregar PDF")
         self.btn_abrir.setFont(QFont("Arial", 12))
-        self.btn_abrir.setFocusPolicy(Qt.FocusPolicy.NoFocus) # <-- LA SOLUCION MAGICA
+        self.btn_abrir.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.btn_abrir.clicked.connect(self.abrir_biblioteca)
         top_layout.addWidget(self.btn_abrir)
         top_layout.addStretch()
@@ -122,7 +121,6 @@ class PyTypeProWindow(QMainWindow):
                     if lib[1] == opcion:
                         self.cargar_libro_desde_db(lib[0])
                         break
-        # Al cerrar la ventana modal, devolvemos el foco
         self.setFocus()
 
     def seleccionar_nuevo_pdf(self):
@@ -206,7 +204,8 @@ class PyTypeProWindow(QMainWindow):
         html_parts = []
         estado = self.motor._get_estado_actual()
         indice = estado["indice_actual"]
-        texto_actual = self.segmentos[self.indice_segmento_actual]
+        
+        texto_actual = self.motor.texto
         
         for i, letra in enumerate(texto_actual):
             safe_letra = html.escape(letra)
